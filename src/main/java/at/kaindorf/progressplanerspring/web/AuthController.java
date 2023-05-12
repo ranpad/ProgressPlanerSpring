@@ -23,10 +23,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Customer> login(@RequestBody LoginForm loginForm){
-
         DBLogin dbLogin = new DBLogin(jdbcTemplate);
         try {
-            dbLogin.checkUser(loginForm.getUsername(), loginForm.getPassword());
+            dbLogin.checkUser(loginForm.getEmail(), loginForm.getPassword());
         }catch (RuntimeException e){
             return ResponseEntity.status(401).build();
         }
