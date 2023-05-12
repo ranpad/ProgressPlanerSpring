@@ -2,16 +2,18 @@ package at.kaindorf.progressplanerspring.web;
 
 import at.kaindorf.progressplanerspring.pojos.Customer;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
+@RestController
 public class MyRestController {
 
-    @PostMapping("/login")
-    public ResponseEntity<Customer> login(/*@RequestBody Customer customer*/){
+
+    @GetMapping("/login")
+    public ResponseEntity<Customer> login(@RequestBody Customer customer){
         return ResponseEntity.ok().build();
     }
+
 }

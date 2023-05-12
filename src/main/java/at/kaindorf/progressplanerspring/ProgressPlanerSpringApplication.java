@@ -8,10 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @SpringBootApplication
+@RestController
 public class ProgressPlanerSpringApplication {
 
     private static JdbcTemplate jdbcTemplate;
@@ -26,7 +30,10 @@ public class ProgressPlanerSpringApplication {
         System.out.println("!!!!!!!");
         DB_TestImpl dbTest = new DB_TestImpl(jdbcTemplate);
         dbTest.testConnection();
-
     }
 
+    @GetMapping("/mast")
+    public String sayHello() {
+        return "Hallo /mast";
+    }
 }
