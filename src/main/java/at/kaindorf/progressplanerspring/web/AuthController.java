@@ -27,7 +27,7 @@ public class AuthController {
         try {
             dbLogin.checkUser(loginForm.getEmail(), loginForm.getPassword());
         }catch (RuntimeException e){
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(402).build();
         }
         return ResponseEntity.ok().build();
     }

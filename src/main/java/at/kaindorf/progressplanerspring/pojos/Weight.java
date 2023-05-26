@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Weigh {
+public class Weight {
     private int userId;
     private LocalDate validFrom;
     private int weight;
