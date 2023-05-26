@@ -37,7 +37,7 @@ public class DBLogin {
     }
     public List<Weight> getWeightList(String email){
         int userId = getUserId(email);
-        String sqlString = "SELECT userid FROM weighthistory WHERE userid = ?";
+        String sqlString = "SELECT * FROM weighthistory WHERE userid = ?";
         return jdbcTemplate.query(sqlString, new Object[]{userId}, new BeanPropertyRowMapper<>(Weight.class));
     }
     public List<Calorie> getCalorieList(String email){

@@ -12,6 +12,6 @@ import java.time.LocalDate;
 public class Weight {
     private int userId;
     private LocalDate validFrom;
-    private int weight;
+    private float weight;
 
 }
