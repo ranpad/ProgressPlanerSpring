@@ -1,7 +1,8 @@
 package at.kaindorf.progressplanerspring.web;
 
-import at.kaindorf.progressplanerspring.database.DBLogin;
+import at.kaindorf.progressplanerspring.database.ProgressPlanerDB;
 import at.kaindorf.progressplanerspring.pojos.Calorie;
+import at.kaindorf.progressplanerspring.pojos.Measurement;
 import at.kaindorf.progressplanerspring.pojos.Weight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,21 +29,21 @@ public class ChartController {
 
     @GetMapping("/weight")
     public List<Weight> getUserWeight(@RequestHeader("user-mail") String email) {
-        DBLogin dbLogin = new DBLogin(jdbcTemplate);
-        List<Weight> weightList = dbLogin.getWeightList(email);
+        ProgressPlanerDB progressPlanerDb = new ProgressPlanerDB(jdbcTemplate);
+        List<Weight> weightList = progressPlanerDb.getWeightList(email);
         return new ResponseEntity<>(weightList, HttpStatus.OK).getBody();
     }
     @GetMapping("/calories")
-    public List<Calorie> getUserCalories(@RequestParam String email) {
-        DBLogin dbLogin = new DBLogin(jdbcTemplate);
-        List<Calorie> weightList = dbLogin.getCalorieList(email);
-        return new ResponseEntity<>(weightList, HttpStatus.OK).getBody();
+    public List<Calorie> getUserCalories(@RequestHeader("user-mail") String email) {
+        ProgressPlanerDB progressPlanerDb = new ProgressPlanerDB(jdbcTemplate);
+        List<Calorie> calorieList = progressPlanerDb.getCalorieList(email);
+        return new ResponseEntity<>(calorieList, HttpStatus.OK).getBody();
     }
-//    @GetMapping("/measurements")
-//    public List<Measurement> getUserMeasurements(@RequestParam String emajil) {
-//        DBLogin dbLogin = new DBLogin(jdbcTemplate);
-//        List<Weight> weightList = dbLogin.getWeightList(email);
-//        return new ResponseEntity<>(weightList, HttpStatus.OK).getBody();
-//    }
+    @GetMapping("/measurements")
+    public List<Measurement> getUserMeasurements(@RequestHeader("user-mail") String email, @RequestHeader("column") String column) {
+        ProgressPlanerDB progressPlanerDB = new ProgressPlanerDB(jdbcTemplate);
+        List<Measurement> measurementList = progressPlanerDB.getMeasurementList(email,column);
+        return new ResponseEntity<>(measurementList, HttpStatus.OK).getBody();
+    }
 
 }

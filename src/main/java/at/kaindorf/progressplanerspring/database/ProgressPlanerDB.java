@@ -7,12 +7,13 @@ import at.kaindorf.progressplanerspring.pojos.Weight;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DBLogin {
+public class ProgressPlanerDB {
     private static JdbcTemplate jdbcTemplate;
 
-    public DBLogin(JdbcTemplate jdbcTemplate) {
+    public ProgressPlanerDB(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -42,12 +43,21 @@ public class DBLogin {
     }
     public List<Calorie> getCalorieList(String email){
         int userId = getUserId(email);
-        String sqlString = "SELECT userid FROM caloriehistory WHERE userid = ?";
+        String sqlString = "SELECT * FROM caloriehistory WHERE userid = ?";
         return jdbcTemplate.query(sqlString, new Object[]{userId}, new BeanPropertyRowMapper<>(Calorie.class));
     }
-    public List<Measurement> getMeasurementList(String email){
+    public List<Measurement> getMeasurementList(String email, String column){
         int userId = getUserId(email);
-        String sqlString = "SELECT userid FROM weighthistory WHERE userid = ?";
-        return jdbcTemplate.query(sqlString, new Object[]{userId}, new BeanPropertyRowMapper<>(Measurement.class));
+        String sqlString = "SELECT * FROM measurementhistory WHERE userid = ?";
+        List<Measurement> measurements = jdbcTemplate.query(sqlString, new Object[]{userId}, new BeanPropertyRowMapper<>(Measurement.class));
+        List<Measurement> selectedMeasurements = new ArrayList<>();
+        for (Measurement measurement : measurements) {
+            Measurement selectedMeasurement = new Measurement();
+            selectedMeasurement.setUserId(measurement.getUserId());
+            selectedMeasurement.setValidFrom(measurement.getValidFrom());
+            selectedMeasurement.setSelectedColumn(column, (Double)measurement.getSelectedFields(column).get(2));
+            selectedMeasurements.add(selectedMeasurement);
+        }
+        return selectedMeasurements;
     }
 }

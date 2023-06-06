@@ -1,6 +1,6 @@
 package at.kaindorf.progressplanerspring.web;
 
-import at.kaindorf.progressplanerspring.database.DBLogin;
+import at.kaindorf.progressplanerspring.database.ProgressPlanerDB;
 import at.kaindorf.progressplanerspring.pojos.Customer;
 import at.kaindorf.progressplanerspring.pojos.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Customer> login(@RequestBody LoginForm loginForm){
-        DBLogin dbLogin = new DBLogin(jdbcTemplate);
+        ProgressPlanerDB progressPlanerDb = new ProgressPlanerDB(jdbcTemplate);
         try {
-            dbLogin.checkUser(loginForm.getEmail(), loginForm.getPassword());
+            progressPlanerDb.checkUser(loginForm.getEmail(), loginForm.getPassword());
         }catch (RuntimeException e){
             return ResponseEntity.status(402).build();
         }
