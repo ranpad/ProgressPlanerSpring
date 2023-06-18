@@ -32,4 +32,15 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<Customer> register(@RequestBody Customer customer){
+        ProgressPlanerDB progressPlanerDB = new ProgressPlanerDB(jdbcTemplate);
+        try {
+            progressPlanerDB.checkUser(customer.getEmail(), customer.getSecret());
+        }catch (RuntimeException e){
+            return ResponseEntity.status(402).build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
 }

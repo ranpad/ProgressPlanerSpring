@@ -36,6 +36,16 @@ public class ProgressPlanerDB {
                 get().
                 getUserId();
     }
+
+//    public void createUser(Customer c) {
+//        LocalDate createDate = LocalDate.now();
+//        Period age = Period.between(c.getBirthDate(),createDate);
+//        if (age.getYears()<18) throw new RuntimeException("User is not 18 yet");
+//        String sqlString = "INSERT INTO customer (username, email, secret, birthdate, createdate, profilepicture)  VALUES (?,?,?,?,?,?,?)";
+//        jdbcTemplate.update(sqlString, c.getUsername(), c.getEmail(), c.getSecret(), c.getBirthDate(), createDate, 1);
+//    }
+
+
     public List<Weight> getWeightList(String email){
         int userId = getUserId(email);
         String sqlString = "SELECT * FROM weighthistory WHERE userid = ?";
@@ -59,5 +69,11 @@ public class ProgressPlanerDB {
             selectedMeasurements.add(selectedMeasurement);
         }
         return selectedMeasurements;
+    }
+
+    public void addWeight(Weight weight) {
+        //int userId = getUserId(email);
+        String sqlString = "INSERT INTO weighthistory (userid, weight, validfrom) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sqlString, weight.getUserId(), weight.getWeight(), weight.getValidFrom());
     }
 }

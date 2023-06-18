@@ -29,7 +29,7 @@ public class ChartController {
 
     @GetMapping("/weight")
     public List<Weight> getUserWeight(@RequestHeader("user-mail") String email) {
-        ProgressPlanerDB progressPlanerDb = new ProgressPlanerDB(jdbcTemplate);
+      ProgressPlanerDB progressPlanerDb = new ProgressPlanerDB(jdbcTemplate);
         List<Weight> weightList = progressPlanerDb.getWeightList(email);
         return new ResponseEntity<>(weightList, HttpStatus.OK).getBody();
     }
@@ -45,5 +45,16 @@ public class ChartController {
         List<Measurement> measurementList = progressPlanerDB.getMeasurementList(email,column);
         return new ResponseEntity<>(measurementList, HttpStatus.OK).getBody();
     }
+    @PostMapping("/post/weight")
+    public ResponseEntity<?> addWeight(@RequestBody Weight weight) {
+        try {
+            ProgressPlanerDB progressPlanerDB = new ProgressPlanerDB(jdbcTemplate);
+            progressPlanerDB.addWeight(weight);
+            return ResponseEntity.ok().build();
+        } catch(Exception e){
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
 
 }
