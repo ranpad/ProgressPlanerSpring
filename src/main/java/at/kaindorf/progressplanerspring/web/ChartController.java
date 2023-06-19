@@ -55,6 +55,26 @@ public class ChartController {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
+    @PostMapping("/post/calories")
+    public ResponseEntity<?> addCalories(@RequestBody Calorie calorie) {
+        try {
+            ProgressPlanerDB progressPlanerDB = new ProgressPlanerDB(jdbcTemplate);
+            progressPlanerDB.addCalorie(calorie);
+            return ResponseEntity.ok().build();
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+    @PostMapping("/post/measurements")
+    public ResponseEntity<?> addMeasurements(@RequestBody Measurement measurement) {
+        try {
+            ProgressPlanerDB progressPlanerDB = new ProgressPlanerDB(jdbcTemplate);
+            progressPlanerDB.addMeasurement(measurement);
+            return ResponseEntity.ok().build();
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
 
 
 }
