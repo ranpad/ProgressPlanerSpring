@@ -72,8 +72,14 @@ public class ProgressPlanerDB {
     }
 
     public void addWeight(Weight weight) {
-        //int userId = getUserId(email);
-        String sqlString = "INSERT INTO weighthistory (userid, weight, validfrom) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sqlString, weight.getUserId(), weight.getWeight(), weight.getValidFrom());
+        String sqlString = "SELECT COUNT(*) FROM weighthistory WHERE userid = ? AND validfrom = ?";
+        int count = jdbcTemplate.queryForObject(sqlString, new Object[]{weight.getUserId(), weight.getValidFrom()}, Integer.class);
+        if (count > 0) {
+            sqlString = "UPDATE weighthistory SET weight = ? WHERE userid = ? AND validfrom = ?";
+            jdbcTemplate.update(sqlString, weight.getWeight(), weight.getUserId(), weight.getValidFrom());
+        } else {
+            sqlString = "INSERT INTO weighthistory (userid, weight, validfrom) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sqlString, weight.getUserId(), weight.getWeight(), weight.getValidFrom());
+        }
     }
 }
