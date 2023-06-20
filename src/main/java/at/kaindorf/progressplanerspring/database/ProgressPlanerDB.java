@@ -60,17 +60,17 @@ public class ProgressPlanerDB {
     }
     public List<Measurement> getMeasurementList(String email, String column){
         int userId = getUserId(email);
-        String sqlString = "SELECT * FROM measurementhistory WHERE userid = ? ORDER BY validfrom";
-        List<Measurement> measurements = jdbcTemplate.query(sqlString, new Object[]{userId}, new BeanPropertyRowMapper<>(Measurement.class));
-        List<Measurement> selectedMeasurements = new ArrayList<>();
-        for (Measurement measurement : measurements) {
-            Measurement selectedMeasurement = new Measurement();
-            selectedMeasurement.setUserId(measurement.getUserId());
-            selectedMeasurement.setValidFrom(measurement.getValidFrom());
-            selectedMeasurement.setSelectedColumn(column, (Double)measurement.getSelectedFields(column).get(2));
-            selectedMeasurements.add(selectedMeasurement);
-        }
-        return selectedMeasurements;
+        String sqlString = "SELECT ? FROM measurementhistory WHERE userid = ? ORDER BY validfrom";
+        List<Measurement> measurements = jdbcTemplate.query(sqlString, new Object[]{column, userId}, new BeanPropertyRowMapper<>(Measurement.class));
+//        List<Measurement> selectedMeasurements = new ArrayList<>();
+//        for (Measurement measurement : measurements) {
+//            Measurement selectedMeasurement = new Measurement();
+//            selectedMeasurement.setUserId(measurement.getUserId());
+//            selectedMeasurement.setValidFrom(measurement.getValidFrom());
+//            selectedMeasurement.setSelectedColumn(column, (Double)measurement.getSelectedFields(column).get(2));
+//            selectedMeasurements.add(selectedMeasurement);
+//        }
+        return measurements;
     }
 
     public void addWeight(Weight weight) {
