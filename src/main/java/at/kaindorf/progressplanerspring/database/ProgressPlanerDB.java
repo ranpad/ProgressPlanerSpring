@@ -60,8 +60,8 @@ public class ProgressPlanerDB {
     }
     public List<Measurement> getMeasurementList(String email, String column){
         int userId = getUserId(email);
-        String sqlString = "SELECT ? FROM measurementhistory WHERE userid = ? ORDER BY validfrom";
-        List<Measurement> measurements = jdbcTemplate.query(sqlString, new Object[]{column, userId}, new BeanPropertyRowMapper<>(Measurement.class));
+        String sqlString = "SELECT * FROM measurementhistory WHERE userid = ? ORDER BY validfrom";
+        List<Measurement> measurements = jdbcTemplate.query(sqlString, new Object[]{userId}, new BeanPropertyRowMapper<>(Measurement.class));
 //        List<Measurement> selectedMeasurements = new ArrayList<>();
 //        for (Measurement measurement : measurements) {
 //            Measurement selectedMeasurement = new Measurement();
@@ -91,10 +91,10 @@ public class ProgressPlanerDB {
         String sqlString = "SELECT COUNT(*) FROM caloriehistory WHERE userid = ? AND validfrom = ?";
         int count = jdbcTemplate.queryForObject(sqlString, new Object[]{calorie.getUserId(), date}, Integer.class);
         if (count > 0) {
-            sqlString = "UPDATE caloriehistory SET calorie = ? WHERE userid = ? AND validfrom = ?";
+            sqlString = "UPDATE caloriehistory SET calories = ? WHERE userid = ? AND validfrom = ?";
             jdbcTemplate.update(sqlString, calorie.getCalories(), calorie.getUserId(), date);
         } else {
-            sqlString = "INSERT INTO caloriehistory (userid, calorie, validfrom) VALUES (?, ?, ?)";
+            sqlString = "INSERT INTO caloriehistory (userid, calories, validfrom) VALUES (?, ?, ?)";
             jdbcTemplate.update(sqlString, calorie.getCalories(), calorie.getUserId(), date);
         }
     }
